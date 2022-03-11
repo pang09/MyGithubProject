@@ -1,10 +1,7 @@
 package com.yong.login.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.yong.login.entity.Admin;
 import com.yong.login.entity.AdminLogin;
-import com.yong.login.entity.R;
-import com.yong.login.mapper.AdminMapper;
 import com.yong.login.service.AdminService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

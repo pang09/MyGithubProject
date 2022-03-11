@@ -21,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -102,8 +104,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         admin.setSex(register.getSex());
         admin.setLocation(register.getLocation());
         admin.setTel(register.getTel());
-        int i=adminMapper.insert(admin);
-        if (i==1) {
+        admin.setCreateTime(new Date());
+        admin.setUpdateTime(new Date());
+        int insert=adminMapper.insert(admin);
+        List<Admin> admins = adminMapper.selectList(null);
+        admins.forEach(System.out::println);
+        if (insert==1) {
             return R.ok().message("注册成功");
         }
         return R.error().message("注册失败");
