@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yong.login.mapper.LbookMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yong.login.entity.Lbook">
+        <id column="b_id" property="bId" />
+        <result column="b_name" property="bName" />
+        <result column="ISBN" property="isbn" />
+        <result column="b.bkcaseid" property="b.bkcaseid" />
+        <result column="b_price" property="bPrice" />
+        <result column="b_author" property="bAuthor" />
+        <result column="b_typeId" property="bTypeid" />
+        <result column="b_intime" property="bIntime" />
+        <result column="b_synopsis" property="bSynopsis" />
+        <result column="b_state" property="bState" />
+        <result column="b_phone" property="bPhone" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        b_id, b_name, ISBN, b.bkcaseid, b_price, b_author, b_typeId, b_intime, b_synopsis, b_state, b_phone
+    </sql>
+
+</mapper>
