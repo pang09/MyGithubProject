@@ -30,17 +30,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+    protected void configure(HttpSecurity http) throws Exception {
+        //开启模拟请求，比如API POST测试工具的测试，不开启时，API POST为报403错误
+        http.csrf().disable()
+                .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                .successForwardUrl("index")
+                .and()
                 .authorizeRequests()
-                //认证规则
-//                .anyRequest().access("@rbacService.hasPermission(request,authentication)")
-                .and()
-                //开启表单登录
-                .formLogin().loginPage("/login").permitAll()
-                .and()
-                .formLogin().loginPage("/login1").permitAll();
-        //登录失败处理
+                    .mvcMatchers("/register").permitAll()
+                .anyRequest().authenticated();
 //                .failureHandler(loginFailureHandler)
 //                //登录成功处理
 //                .successHandler(loginSuccessHandler)
@@ -54,9 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //退出成功处理
 //                .logout().logoutSuccessHandler(logoutSuccessHandler).permitAll();
         //开启跨域访问
-        httpSecurity.cors().disable();
-        //开启模拟请求，比如API POST测试工具的测试，不开启时，API POST为报403错误
-        httpSecurity.csrf().disable();
+//        httpSecurity.cors().disable();
     }
 
     @Override
