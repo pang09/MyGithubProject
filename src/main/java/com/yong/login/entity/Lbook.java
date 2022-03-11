@@ -19,19 +19,19 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Lbook对象", description="")
+@ApiModel(value="图书信息", description="")
 public class Lbook implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      private String bId;
+    private String bId;
 
     private String bName;
 
     @TableField("ISBN")
     private String isbn;
 
-    private String bbkcaseid;
+    private String bBkcaseid;
 
     private BigDecimal bPrice;
 
