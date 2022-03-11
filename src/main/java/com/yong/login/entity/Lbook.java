@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author yong
@@ -31,7 +31,7 @@ public class Lbook implements Serializable {
     @TableField("ISBN")
     private String isbn;
 
-    private String b.bkcaseid;
+    private String bbkcaseid;
 
     private BigDecimal bPrice;
 

@@ -1,6 +1,5 @@
 package com.yong.login.controller;
 
-import com.yong.login.entity.Admin;
 import com.yong.login.entity.AdminLogin;
 import com.yong.login.entity.R;
 import com.yong.login.entity.Register;
