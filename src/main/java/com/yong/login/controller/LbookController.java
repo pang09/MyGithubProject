@@ -8,11 +8,7 @@ import com.yong.login.service.LbookService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -37,19 +33,19 @@ public class LbookController {
     }
 
     @ApiOperation(value = "根据id修改图书信息")
-    @GetMapping("/updatebooks")
+    @PostMapping("/updatebooks")
     public R updateBooks(Lbook lbook){
         return lbookService.saveBooks(lbook);
     }
 
     @ApiOperation(value = "根据id删除图书信息")
-    @GetMapping("/deletebooks/{id}")
+    @DeleteMapping("/deletebooks/{id}")
     public R deleteBooks(Integer id){
         return lbookService.deleteBooks(id);
     }
 
     @ApiOperation(value = "添加图书")
-    @GetMapping("/addbooks")
+    @PostMapping("/addbooks")
     public R addBooks(Lbook lbook){
         return lbookService.addBooks(lbook);
     }
