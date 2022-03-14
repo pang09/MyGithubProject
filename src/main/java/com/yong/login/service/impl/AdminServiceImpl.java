@@ -114,4 +114,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         }
         return R.error().message("注册失败");
     }
+
+    @Override
+    public R userNameisExist(String username) {
+        QueryWrapper wrapper=new QueryWrapper();
+        wrapper.eq("username",username);
+        Admin admin=adminMapper.selectOne(wrapper);
+        if (admin==null){
+            return R.ok();
+        }
+        return R.error().message("用户已注册");
+    }
 }

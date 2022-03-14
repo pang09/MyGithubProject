@@ -45,6 +45,12 @@ public class LoginController {
     }
 
     @ApiOperation(value = "注册")
+    @GetMapping("/userNameisExist")
+    public R userNameisExist(String username){
+        return adminService.userNameisExist(username);
+    }
+
+    @ApiOperation(value = "注册")
     @GetMapping("/register")
     public R reg(Register register){
         return adminService.register(register);

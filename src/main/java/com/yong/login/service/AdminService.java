@@ -15,4 +15,6 @@ public interface AdminService extends IService<Admin> {
     Admin getAdminByUserName(String username);
 
     R register(Register register);
+
+    R userNameisExist(String username);
 }
