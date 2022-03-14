@@ -15,4 +15,12 @@ import com.yong.login.entity.R;
 public interface LbookService extends IService<Lbook> {
 
     R getBooks(Long page,Long limit);
+
+    R saveBooks(Lbook lbook);
+
+    R deleteBooks(Integer id);
+
+    R addBooks(Lbook lbook);
+
+    R bookInformation(Integer id);
 }

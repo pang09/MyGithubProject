@@ -36,4 +36,40 @@ public class LbookServiceImpl extends ServiceImpl<LbookMapper, Lbook> implements
         List<Lbook> goods = userIPage.getRecords();
         return R.ok().message("查询成功").data("data",goods).data("total",total).data("pages",pages);
     }
+
+    @Override
+    public R saveBooks(Lbook lbook) {
+        int u=lbookMapper.updateById(lbook);
+        if (u==1){
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    @Override
+    public R deleteBooks(Integer id) {
+        int d=lbookMapper.deleteById(id);
+        if (d==1){
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    @Override
+    public R addBooks(Lbook lbook) {
+        int a=lbookMapper.insert(lbook);
+        if (a==1){
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    @Override
+    public R bookInformation(Integer id) {
+        Lbook lbook=lbookMapper.selectById(id);
+
+        return R.ok().data("data",lbook);
+    }
+
+
 }

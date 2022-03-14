@@ -44,7 +44,7 @@ public class LoginController {
         return adminService.login(adminLogin.getUsername(),adminLogin.getPassword());
     }
 
-    @ApiOperation(value = "注册")
+    @ApiOperation(value = "用户名是否存在")
     @GetMapping("/userNameisExist")
     public R userNameisExist(String username){
         return adminService.userNameisExist(username);
