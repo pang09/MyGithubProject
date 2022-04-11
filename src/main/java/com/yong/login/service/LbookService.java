@@ -1,5 +1,6 @@
 package com.yong.login.service;
 
+import com.yong.login.common.lang.Result;
 import com.yong.login.entity.Lbook;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,13 +14,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface LbookService extends IService<Lbook> {
 
-    R getBooks(Long page,Long limit);
+    Result getBooks(Long page, Long limit);
 
-    R saveBooks(Lbook lbook);
+    Result saveBooks(Lbook lbook);
 
-    R deleteBooks(Integer id);
+    Result deleteBooks(Integer id);
 
-    R addBooks(Lbook lbook);
+    Result addBooks(Lbook lbook);
 
-    R bookInformation(Integer id);
+    Result bookInformation(Integer id);
 }

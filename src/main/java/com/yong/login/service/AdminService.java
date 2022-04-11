@@ -2,18 +2,19 @@ package com.yong.login.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yong.login.common.lang.Result;
 import com.yong.login.entity.Admin;
 import com.yong.login.entity.Register;
 
 public interface AdminService extends IService<Admin> {
 
-    R sendSms(String telephone, String smsCode);
+    Result sendSms(String telephone, String smsCode);
 
-    R login(String username, String password);
+    Result login(String username, String password);
 
     Admin getAdminByUserName(String username);
 
-    R register(Register register);
+    Result register(Register register);
 
-    R userNameisExist(String username);
+    Result userNameisExist(String username);
 }

@@ -1,5 +1,6 @@
 package com.yong.login.controller;
 
+import com.yong.login.common.lang.Result;
 import com.yong.login.entity.AdminLogin;
 import com.yong.login.entity.Register;
 import com.yong.login.service.AdminService;
@@ -26,12 +27,12 @@ public class LoginController {
      */
     @ApiOperation(value = "发送短信")
     @GetMapping("/sendSms")
-    public R sendSms(String telephone) {
+    public Result sendSms(String telephone) {
         //1.调用工具类随机生成6个数字
         String smsCode = RandomStringUtils.randomNumeric(6);
         log.info("验证码：" + smsCode);
         //2.调用业务层发送短信
-        R resultInfo = adminService.sendSms(telephone, smsCode);
+        Result resultInfo = adminService.sendSms(telephone, smsCode);
         //3.返回发送的结果
         return resultInfo;
     }
@@ -39,19 +40,19 @@ public class LoginController {
 
     @ApiOperation(value = "登录之后返回Token")
     @GetMapping("/login")
-    public R login(AdminLogin adminLogin){
+    public Result login(AdminLogin adminLogin){
         return adminService.login(adminLogin.getUsername(),adminLogin.getPassword());
     }
 
     @ApiOperation(value = "用户名是否存在")
     @GetMapping("/userNameisExist")
-    public R userNameisExist(String username){
+    public Result userNameisExist(String username){
         return adminService.userNameisExist(username);
     }
 
     @ApiOperation(value = "注册")
     @GetMapping("/register")
-    public R reg(Register register){
+    public Result reg(Register register){
         return adminService.register(register);
     }
 }
