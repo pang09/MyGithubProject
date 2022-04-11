@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import com.yong.login.entity.Admin;
-import com.yong.login.entity.R;
 import com.yong.login.entity.Register;
 import com.yong.login.mapper.AdminMapper;
 import com.yong.login.service.AdminService;

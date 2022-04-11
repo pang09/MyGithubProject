@@ -1,7 +1,6 @@
 package com.yong.login.controller;
 
 import com.yong.login.entity.AdminLogin;
-import com.yong.login.entity.R;
 import com.yong.login.entity.Register;
 import com.yong.login.service.AdminService;
 import io.swagger.annotations.ApiOperation;

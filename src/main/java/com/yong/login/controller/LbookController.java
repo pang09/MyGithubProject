@@ -2,7 +2,6 @@ package com.yong.login.controller;
 
 
 import com.yong.login.entity.Lbook;
-import com.yong.login.entity.R;
 import com.yong.login.service.LbookService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

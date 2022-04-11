@@ -2,7 +2,6 @@ package com.yong.login.service;
 
 import com.yong.login.entity.Lbook;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.yong.login.entity.R;
 
 /**
  * <p>

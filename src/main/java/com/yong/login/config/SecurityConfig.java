@@ -1,76 +1,106 @@
-package com.yong.login.config;
+package com.markerhub.config;
 
-
+import com.yong.login.security.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import javax.annotation.Resource;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource(name = "UserDetailsServiceImpl")
-    private UserDetailsService userDetailsService;
-    @Resource
-    private PasswordEncoder passwordEncoder;
-//    @Autowired
-//    private AuthenticationSuccessHandler loginSuccessHandler;
-//    @Autowired
-//    private AuthenticationFailureHandler loginFailureHandler;
-//    @Autowired
-//    private AuthenticationEntryPoint authenticationEntryPoint;
-//    @Autowired
-//    private AccessDeniedHandler accessDeniedHandler;
-//    @Autowired
-//    private LogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
+    LoginFailureHandler loginFailureHandler;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        //开启模拟请求，比如API POST测试工具的测试，不开启时，API POST为报403错误
-        http.csrf().disable()
-                .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                .successForwardUrl("index")
-                .and()
-                .authorizeRequests()
-                    .mvcMatchers("/register").permitAll()
-                .anyRequest().authenticated();
-//                .failureHandler(loginFailureHandler)
-//                //登录成功处理
-//                .successHandler(loginSuccessHandler)
-//                .and()
-//                //没有权限处理
-//                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
-//                .and()
-//                //未登录处理
-//                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-//                .and()
-                //退出成功处理
-//                .logout().logoutSuccessHandler(logoutSuccessHandler).permitAll();
-        //开启跨域访问
-//        httpSecurity.cors().disable();
+    @Autowired
+    LoginSuccessHandler loginSuccessHandler;
+
+    @Autowired
+    CaptchaFilter captchaFilter;
+
+    @Autowired
+    JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Autowired
+    JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    @Autowired
+    UserDetailServiceImpl userDetailService;
+
+    @Autowired
+    JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
+
+    @Bean
+    JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+        return jwtAuthenticationFilter;
     }
 
-    @Override
-    public void configure(WebSecurity web) {
-        //对于在header里面增加token等类似情况，放行所有OPTIONS请求。
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
-      web.ignoring().antMatchers("/index.html", "/static/**", "/login", "/favicon.ico","/register")
-//              // 给 swagger 放行；不需要权限能访问的资源
-              .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/api-docs", "/configuration/ui", "/configuration/security");
+    @Bean
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    private static final String[] URL_WHITELIST = {
+
+            "/login",
+            "/logout",
+            "/captcha",
+            "/favicon.ico",
+
+    };
+
+
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.cors().and().csrf().disable()
+
+                // 登录配置
+                .formLogin()
+                .successHandler(loginSuccessHandler)
+                .failureHandler(loginFailureHandler)
+
+                .and()
+                .logout()
+                .logoutSuccessHandler(jwtLogoutSuccessHandler)
+
+                // 禁用session
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                // 配置拦截规则
+                .and()
+                .authorizeRequests()
+                .antMatchers(URL_WHITELIST).permitAll()
+                .anyRequest().authenticated()
+
+                // 异常处理器
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+
+                // 配置自定义的过滤器
+                .and()
+                .addFilter(jwtAuthenticationFilter())
+                .addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
+
+        ;
 
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailService);
     }
-
 }
