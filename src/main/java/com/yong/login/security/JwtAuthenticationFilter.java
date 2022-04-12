@@ -1,9 +1,9 @@
 package com.yong.login.security;
 
 import cn.hutool.core.util.StrUtil;
-import com.markerhub.entity.SysUser;
-import com.markerhub.service.SysUserService;
-import com.markerhub.utils.JwtUtils;
+import com.yong.login.entity.Admin;
+import com.yong.login.service.AdminService;
+import com.yong.login.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 	UserDetailServiceImpl userDetailService;
 
 	@Autowired
-	SysUserService sysUserService;
+	AdminService adminService;
 
 	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
@@ -53,9 +53,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 		String username = claim.getSubject();
 		// 获取用户的权限等信息
 
-		SysUser sysUser = sysUserService.getByUsername(username);
+		Admin admin = adminService.getByUsername(username);
 		UsernamePasswordAuthenticationToken token
-				= new UsernamePasswordAuthenticationToken(username, null, userDetailService.getUserAuthority(sysUser.getId()));
+				= new UsernamePasswordAuthenticationToken(username, null, userDetailService.getUserAuthority(admin.getId()));
 
 		SecurityContextHolder.getContext().setAuthentication(token);
 

@@ -9,7 +9,7 @@ import com.yong.login.entity.Admin;
 import com.yong.login.entity.Register;
 import com.yong.login.mapper.AdminMapper;
 import com.yong.login.service.AdminService;
-import com.yong.login.util.JwtTokenUtil;
+import com.yong.login.util.JwtUtils;
 import com.yong.login.util.MD5Util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -42,7 +41,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private AdminMapper adminMapper;
 
     @Resource
-    private JwtTokenUtil jwtTokenUtil;
+    private JwtUtils jwtUtil;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
@@ -70,7 +69,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public Result login(String username, String password) {
-        Admin admin = adminService.getAdminByUserName(username);
+        Admin admin = adminService.getByUsername(username);
         if (admin==null){
             return Result.fail("用户名不存在!");
         }
@@ -80,7 +79,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return Result.fail("用户名或密码不正确!");
         }
         //生成令牌
-        String token = jwtTokenUtil.generateToken(userDetails);
+        String token = jwtUtil.generateToken(userDetails);
         Map<String, Object> tokenMap = Maps.newHashMap();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
@@ -89,7 +88,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
 
     @Override
-    public Admin getAdminByUserName(String username) {
+    public Admin getByUsername(String username) {
         return baseMapper.selectOne(new QueryWrapper<Admin>().eq("username", username)
 //                .eq("enabled", true)
         );
@@ -104,8 +103,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         admin.setSex(register.getSex());
         admin.setLocation(register.getLocation());
         admin.setTel(register.getTel());
-        admin.setCreateTime(new Date());
-        admin.setUpdateTime(new Date());
         int insert=adminMapper.insert(admin);
         List<Admin> admins = adminMapper.selectList(null);
         admins.forEach(System.out::println);

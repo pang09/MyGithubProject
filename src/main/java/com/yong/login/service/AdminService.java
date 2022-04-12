@@ -12,7 +12,7 @@ public interface AdminService extends IService<Admin> {
 
     Result login(String username, String password);
 
-    Admin getAdminByUserName(String username);
+    Admin getByUsername(String username);
 
     Result register(Register register);
 

@@ -1,7 +1,9 @@
 package com.yong.login.security;
 
+
+
 import cn.hutool.json.JSONUtil;
-import com.markerhub.common.lang.Result;
+import com.yong.login.common.lang.Result;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

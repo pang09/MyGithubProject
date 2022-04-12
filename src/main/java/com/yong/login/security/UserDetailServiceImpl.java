@@ -1,7 +1,7 @@
 package com.yong.login.security;
 
-import com.markerhub.entity.SysUser;
-import com.markerhub.service.SysUserService;
+import com.yong.login.entity.Admin;
+import com.yong.login.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -16,16 +16,16 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
 
 	@Autowired
-	SysUserService sysUserService;
+	AdminService adminService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		SysUser sysUser = sysUserService.getByUsername(username);
-		if (sysUser == null) {
+		Admin admin = adminService.getByUsername(username);
+		if (admin == null) {
 			throw new UsernameNotFoundException("用户名或密码不正确");
 		}
-		return new AccountUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), getUserAuthority(sysUser.getId()));
+		return new AccountUser(admin.getId(), admin.getUsername(), admin.getPassword(), getUserAuthority(admin.getId()));
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	public List<GrantedAuthority> getUserAuthority(Long userId){
 
 		// 角色(ROLE_admin)、菜单操作权限 sys:user:list
-		String authority = sysUserService.getUserAuthorityInfo(userId);  // ROLE_admin,ROLE_normal,sys:user:list,....
+		String authority = adminService.getUserAuthorityInfo(userId);  // ROLE_admin,ROLE_normal,sys:user:list,....
 
 		//commaSeparatedStringToAuthorityList加名为id的权限
 		//AuthorityUtils.commaSeparatedStringToAuthorityList("admin,normal")
