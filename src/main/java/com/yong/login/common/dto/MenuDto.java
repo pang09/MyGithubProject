@@ -17,7 +17,7 @@ import java.util.List;
  *                                },
  */
 @Data
-public class SysMenuDto implements Serializable {
+public class MenuDto implements Serializable {
 
 	private Long id;
 	private String name;
@@ -25,6 +25,6 @@ public class SysMenuDto implements Serializable {
 	private String icon;
 	private String path;
 	private String component;
-	private List<SysMenuDto> children = new ArrayList<>();
+	private List<MenuDto> children = new ArrayList<>();
 
 }
