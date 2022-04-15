@@ -5,8 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 
 public class AccountUser implements UserDetails {
 

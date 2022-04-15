@@ -57,6 +57,11 @@
             <artifactId>hutool-all</artifactId>
             <version>5.3.3</version>
         </dependency>
+        <!--注解处理器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>

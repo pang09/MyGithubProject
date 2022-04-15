@@ -22,8 +22,9 @@ swagger:
 logging:
    level:
      com.yong.login.mapper: debug
-jwt:
-  tokenHeader: Authorization
-  secret: springboot-vue
-  expiration: 604800
-  tokenHead: Bearer
+yong:
+  jwt:
+    header: Authorization
+    expire: 604800   #7天，秒单位
+    secret: springboot-vue
+

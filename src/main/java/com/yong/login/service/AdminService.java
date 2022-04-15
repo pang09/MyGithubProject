@@ -17,4 +17,10 @@ public interface AdminService extends IService<Admin> {
     Result register(Register register);
 
     Result userNameisExist(String username);
+
+    String getUserAuthorityInfo(Long userId);
+
+    void clearUserAuthorityInfo(String username);
+
+    void clearUserAuthorityInfoByRoleId(Long roleId);
 }

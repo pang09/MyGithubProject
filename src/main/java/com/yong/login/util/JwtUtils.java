@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "markerhub.jwt")
+@ConfigurationProperties(prefix = "yong.jwt")
 public class JwtUtils {
 
     private long expire;
