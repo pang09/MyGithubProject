@@ -162,10 +162,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public void clearUserAuthorityInfoByRoleId(Long roleId) {
 
-        List<Admin> sysUsers = this.list(new QueryWrapper<Admin>()
+        List<Admin> admins = this.list(new QueryWrapper<Admin>()
                 .inSql("id", "select user_id from sys_user_role where role_id = " + roleId));
 
-        sysUsers.forEach(u -> {
+        admins.forEach(u -> {
             this.clearUserAuthorityInfo(u.getUsername());
         });
 
